@@ -39,7 +39,7 @@ func (d *Destination) generateDestination(c config) (*Destination, error) {
 		awsConf.Endpoint = d.Target
 		d.firehose = firehose.New(s, awsConf)
 	default:
-		return nil, fmt.Errorf("%s is not a valid type", d.Type)
+		return nil, fmt.Errorf("%s is not a valid type", *(d.Type))
 	}
 
 	return d, nil
