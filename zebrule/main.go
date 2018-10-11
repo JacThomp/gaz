@@ -5,19 +5,19 @@ import (
 )
 
 //NewDestination returns a blank destination to use
-func NewDestination(typeof, target string) *Destination {
+func NewDestination(typeof, target, id string) *Destination {
 	return &Destination{
-		Type:     typeof,
-		Target:   target,
+		Type:     &typeof,
+		Target:   &target,
 		firehose: nil,
-		id:       nil,
+		id:       &id,
 	}
 }
 
 //NewZebrule returns a zebrule to use
 func NewZebrule(config config, fatal, warning, erro *Destination) (*zebrule, error) {
 
-	if fatal.Target == "" && warning.Target == "" && erro.Target == "" {
+	if *(fatal.Target) == "" && *(warning.Target) == "" && *(erro.Target) == "" {
 		return &zebrule{}, errors.New("No endpoints given")
 	}
 
@@ -27,28 +27,28 @@ func NewZebrule(config config, fatal, warning, erro *Destination) (*zebrule, err
 
 	err := errors.New("")
 
-	if fatal.Target != "" {
+	if *(fatal.Target) != "" {
 		fatal, err = fatal.generateDestination(config)
 		if err != nil {
 			return &zebrule{}, err
 		}
 	}
-	if warning.Target != "" {
+	if *(warning.Target) != "" {
 		warning, err = warning.generateDestination(config)
 		if err != nil {
 			return &zebrule{}, err
 		}
 	}
-	if erro.Target != "" {
+	if *(erro.Target) != "" {
 		erro, err = erro.generateDestination(config)
 		if err != nil {
 			return &zebrule{}, err
 		}
 	}
 
-	debug := &Destination{Type: "", Target: ""}
-	info := &Destination{Type: "", Target: ""}
-	notice := &Destination{Type: "", Target: ""}
+	debug := &Destination{}
+	info := &Destination{}
+	notice := &Destination{}
 
 	ep := endpoint{
 		Fatal:   fatal,

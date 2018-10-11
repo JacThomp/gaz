@@ -6,7 +6,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/firehose"
-	"github.com/gobuffalo/uuid"
 )
 
 /*
@@ -33,15 +32,12 @@ type Destination struct {
 
 func (d *Destination) generateDestination(c config) (*Destination, error) {
 
-	id := uuid.Must(uuid.NewV4()).String()
-	s := session.Must(session.NewSession())
-
-	switch d.Type {
+	switch *(d.Type) {
 	case "AWS":
+		s := session.Must(session.NewSession())
 		awsConf := c.(*aws.Config)
-		awsConf.Endpoint = &d.Target
+		awsConf.Endpoint = d.Target
 		d.firehose = firehose.New(s, awsConf)
-		d.id = &id
 	default:
 		return nil, fmt.Errorf("%s is not a valid type", d.Type)
 	}

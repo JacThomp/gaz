@@ -33,7 +33,7 @@ func (d Destination) feed(report Aluminum) error {
 		return errors.New("Warning logging has not been assigned to this zebrule")
 	}
 
-	switch d.Type {
+	switch *(d.Type) {
 	case "AWS":
 
 		j, err := json.Marshal(report.Data)

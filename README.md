@@ -12,8 +12,9 @@ Usage
 //config := some config structure
 //typeOf := supported stream string ("AWS", )
 //destination := destination string (/example/log/fatal)
+//id := name of the firehose/whatever
 //the default destinations created are fatal, warning, and error
-z, err := zebrule.NewZebrule(config, zebrule.NewDestination(typeOf, destination), zebrule.NewDestination(), zebrule.NewDestination())
+z, err := zebrule.NewZebrule(config, zebrule.NewDestination(typeOf, destination, id), zebrule.NewDestination(), zebrule.NewDestination())
 
 
 aluminum = zebrule.Aluminum{

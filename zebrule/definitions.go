@@ -21,8 +21,8 @@ type Aluminum struct {
 
 //Destination is where the stuff gets sent
 type Destination struct {
-	Type     string  `required:"true"`
-	Target   string  `required:"true"`
+	Type     *string `required:"true"`
+	Target   *string `required:"true"`
 	firehose fire    `required:"false"`
 	id       *string `required:"false"`
 }
