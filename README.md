@@ -1,10 +1,13 @@
 # Green Aluminum Zebrule (because names are hard)
 Open Source golang log streaming
 
-set up to work with: AWS
+you make a zebrule, then feed it aluminum
+becase you are cruel.
+
+Supports: AWS firehose, 
 
 Usage
-```
+```go
 //or z = zebrule.Must(zebrule.NewZebrule(...))
 //config := some config structure
 //typeOf := supported stream string ("AWS", )
