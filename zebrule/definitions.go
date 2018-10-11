@@ -5,16 +5,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
 
-type streamer interface {
-	CreateDeliveryStream()
-}
-
 type fire interface {
 	PutRecord(input *firehose.PutRecordInput) (*firehose.PutRecordOutput, error)
-}
-
-type cancel interface {
-	String() string
 }
 
 type config interface {
@@ -32,7 +24,7 @@ type Destination struct {
 	Type     string  `required:"true"`
 	Target   string  `required:"true"`
 	firehose fire    `required:"false"`
-	id       *string `requierd:false`
+	id       *string `required:"false"`
 }
 
 type endpoint struct {
