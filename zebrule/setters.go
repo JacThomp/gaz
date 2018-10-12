@@ -1,34 +1,13 @@
 package zebrule
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
-
-/*
-type endpoint struct {
-	Fatal   *Destination `required:"true"`
-	Warning *Destination `required:"true"`
-	Error   *Destination `required:"true"`
-	Debug   *Destination `required:"true"`
-	Info    *Destination `required:"true"`
-	Notice  *Destination `required:"true"`
-}
-type zebrule struct {
-	Stream    *streamer `required:"true"`
-	Hose      *string   `required:"true"`
-	Endpoints *endpoint `required:"true"`
-}
-type Destination struct {
-	Type     string   `required:"true"`
-	Target   string   `required:"true"`
-	firehose *request `required:"false"`
-	shutoff  *cancel  `required:"false"`
-}
-*/
 
 func (d *Destination) generateDestination(c config) (*Destination, error) {
 
@@ -45,9 +24,122 @@ func (d *Destination) generateDestination(c config) (*Destination, error) {
 	return d, nil
 }
 
-func (z *zebrule) SetFatal()   {}
-func (z *zebrule) SetWarning() {}
-func (z *zebrule) SetError()   {}
-func (z *zebrule) SetDebug()   {}
-func (z *zebrule) SetInfo()    {}
-func (z *zebrule) SetNotice()  {}
+//SetFatal creates a new hose
+func (z *Zebrule) SetFatal(typeof, target, id string) (*Zebrule, error) {
+	if id == "" {
+		return z, errors.New("Hose ID not supplied, hose not generated")
+	}
+	if typeof == "" {
+		return z, errors.New("Type of hose not supplied, hose not generated")
+	}
+
+	d := NewDestination(typeof, target, id)
+	d, err := d.generateDestination(*(z.Config))
+	if err != nil {
+		return z, fmt.Errorf("Generation of hose failed: %v", err)
+	}
+
+	z.Endpoints.Fatal = d
+
+	return z, nil
+}
+
+//SetWarning creates a new hose
+func (z *Zebrule) SetWarning(typeof, target, id string) (*Zebrule, error) {
+	if id == "" {
+		return z, errors.New("Hose ID not supplied, hose not generated")
+	}
+	if typeof == "" {
+		return z, errors.New("Type of hose not supplied, hose not generated")
+	}
+
+	d := NewDestination(typeof, target, id)
+	d, err := d.generateDestination(*(z.Config))
+	if err != nil {
+		return z, fmt.Errorf("Generation of hose failed: %v", err)
+	}
+
+	z.Endpoints.Warning = d
+
+	return z, nil
+}
+
+//SetError creates a new hose
+func (z *Zebrule) SetError(typeof, target, id string) (*Zebrule, error) {
+	if id == "" {
+		return z, errors.New("Hose ID not supplied, hose not generated")
+	}
+	if typeof == "" {
+		return z, errors.New("Type of hose not supplied, hose not generated")
+	}
+
+	d := NewDestination(typeof, target, id)
+	d, err := d.generateDestination(*(z.Config))
+	if err != nil {
+		return z, fmt.Errorf("Generation of hose failed: %v", err)
+	}
+
+	z.Endpoints.Error = d
+
+	return z, nil
+}
+
+//SetDebug creates a new hose
+func (z *Zebrule) SetDebug(typeof, target, id string) (*Zebrule, error) {
+	if id == "" {
+		return z, errors.New("Hose ID not supplied, hose not generated")
+	}
+	if typeof == "" {
+		return z, errors.New("Type of hose not supplied, hose not generated")
+	}
+
+	d := NewDestination(typeof, target, id)
+	d, err := d.generateDestination(*(z.Config))
+	if err != nil {
+		return z, fmt.Errorf("Generation of hose failed: %v", err)
+	}
+
+	z.Endpoints.Debug = d
+
+	return z, nil
+}
+
+//SetInfo creates a new hose
+func (z *Zebrule) SetInfo(typeof, target, id string) (*Zebrule, error) {
+	if id == "" {
+		return z, errors.New("Hose ID not supplied, hose not generated")
+	}
+	if typeof == "" {
+		return z, errors.New("Type of hose not supplied, hose not generated")
+	}
+
+	d := NewDestination(typeof, target, id)
+	d, err := d.generateDestination(*(z.Config))
+	if err != nil {
+		return z, fmt.Errorf("Generation of hose failed: %v", err)
+	}
+
+	z.Endpoints.Info = d
+
+	return z, nil
+}
+
+//SetNotice creates a new hose
+func (z *Zebrule) SetNotice(typeof, target, id string) (*Zebrule, error) {
+	if id == "" {
+		return z, errors.New("Hose ID not supplied, hose not generated")
+	}
+	if typeof == "" {
+		return z, errors.New("Type of hose not supplied, hose not generated")
+	}
+
+	d := NewDestination(typeof, target, id)
+	d, err := d.generateDestination(*(z.Config))
+	if err != nil {
+		return z, fmt.Errorf("Generation of hose failed: %v", err)
+	}
+
+	z.Endpoints.Notice = d
+
+	return z, nil
+}

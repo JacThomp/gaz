@@ -1,8 +1,9 @@
 # Green Aluminum Zebrule (because names are hard)
 Open Source golang log streaming
 
-you make a zebrule, then feed it aluminum
-becase you are cruel.
+Super alpha v0.0.0
+
+you make a zebrule, then feed it aluminum, becase you are cruel.
 
 Supports: AWS firehose, 
 
@@ -13,7 +14,7 @@ Usage
 //typeOf := supported stream string ("AWS", )
 //destination := destination string (/example/log/fatal)
 //id := name of the firehose/whatever
-//the default destinations created are fatal, warning, and error
+//the default destinations created are fatal, error, and warning
 z, err := zebrule.NewZebrule(config, zebrule.NewDestination(typeOf, destination, id), zebrule.NewDestination(), zebrule.NewDestination())
 
 

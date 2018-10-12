@@ -24,7 +24,7 @@ type Destination struct {
 	Type     *string `required:"true"`
 	Target   *string `required:"true"`
 	firehose fire    `required:"false"`
-	id       *string `required:"false"`
+	ID       *string `required:"false"`
 }
 
 type endpoint struct {
@@ -36,7 +36,8 @@ type endpoint struct {
 	Notice  *Destination `required:"true"`
 }
 
-type zebrule struct {
+//Zebrule is a poor struct, brought into this world only to eat aluminum and stream logs
+type Zebrule struct {
 	Config    *config   `required:"true"`
 	Endpoints *endpoint `required:"true"`
 }

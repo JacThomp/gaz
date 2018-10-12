@@ -10,19 +10,19 @@ func NewDestination(typeof, target, id string) *Destination {
 		Type:     &typeof,
 		Target:   &target,
 		firehose: nil,
-		id:       &id,
+		ID:       &id,
 	}
 }
 
 //NewZebrule returns a zebrule to use
-func NewZebrule(config config, fatal, warning, erro *Destination) (*zebrule, error) {
+func NewZebrule(config config, fatal, erro, warning *Destination) (*Zebrule, error) {
 
 	if *(fatal.Target) == "" && *(warning.Target) == "" && *(erro.Target) == "" {
-		return &zebrule{}, errors.New("No endpoints given")
+		return nil, errors.New("No endpoints given")
 	}
 
 	if config == nil {
-		return &zebrule{}, errors.New("No streaming config object given")
+		return nil, errors.New("No streaming config object given")
 	}
 
 	err := errors.New("")
@@ -30,25 +30,25 @@ func NewZebrule(config config, fatal, warning, erro *Destination) (*zebrule, err
 	if *(fatal.Target) != "" {
 		fatal, err = fatal.generateDestination(config)
 		if err != nil {
-			return &zebrule{}, err
+			return nil, err
 		}
 	}
 	if *(warning.Target) != "" {
 		warning, err = warning.generateDestination(config)
 		if err != nil {
-			return &zebrule{}, err
+			return nil, err
 		}
 	}
 	if *(erro.Target) != "" {
 		erro, err = erro.generateDestination(config)
 		if err != nil {
-			return &zebrule{}, err
+			return nil, err
 		}
 	}
 
-	debug := &Destination{}
-	info := &Destination{}
-	notice := &Destination{}
+	debug := NewDestination("", "", "")
+	info := NewDestination("", "", "")
+	notice := NewDestination("", "", "")
 
 	ep := endpoint{
 		Fatal:   fatal,
@@ -59,7 +59,7 @@ func NewZebrule(config config, fatal, warning, erro *Destination) (*zebrule, err
 		Notice:  notice,
 	}
 
-	zeb := &zebrule{
+	zeb := &Zebrule{
 		Config:    &config,
 		Endpoints: &ep,
 	}
@@ -68,7 +68,7 @@ func NewZebrule(config config, fatal, warning, erro *Destination) (*zebrule, err
 }
 
 //Must wrapper to ensure New doesn't return an error
-func Must(zeb *zebrule, err error) *zebrule {
+func Must(zeb *Zebrule, err error) *Zebrule {
 	if err != nil {
 		panic(err)
 	}

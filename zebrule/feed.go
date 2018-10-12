@@ -2,13 +2,13 @@ package zebrule
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
 
-func (z *zebrule) Feed(report Aluminum) error {
+//Feed tells the zebrule what to stream out
+func (z *Zebrule) Feed(report Aluminum) error {
 
 	switch *(report.Type) {
 	case "WARNING":
@@ -30,7 +30,7 @@ func (z *zebrule) Feed(report Aluminum) error {
 
 func (d Destination) feed(report Aluminum) error {
 	if d.firehose == nil {
-		return errors.New("Warning logging has not been assigned to this zebrule")
+		return fmt.Errorf("%s logging has not been assigned to this zebrule", *(d.Target))
 	}
 
 	switch *(d.Type) {
@@ -43,7 +43,7 @@ func (d Destination) feed(report Aluminum) error {
 		hose := d.firehose.(*firehose.Firehose)
 		_, err = hose.PutRecord(&firehose.PutRecordInput{
 			Record:             &firehose.Record{Data: j},
-			DeliveryStreamName: d.id,
+			DeliveryStreamName: d.ID,
 		})
 		if err != nil {
 			return err
