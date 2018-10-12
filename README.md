@@ -12,7 +12,7 @@ Usage
 //or z = zebrule.Must(zebrule.NewZebrule(...))
 //config := some config structure
 //typeOf := supported stream string ("AWS", )
-//destination := destination string (/example/log/fatal)
+//destination := destination string (/example/log/fatal) unsupported by AWS, the hose itself determines where things go
 //id := name of the firehose/whatever
 //the default destinations created are fatal, error, and warning
 z, err := zebrule.NewZebrule(config, zebrule.NewDestination(typeOf, destination, id), zebrule.NewDestination(), zebrule.NewDestination())

@@ -17,6 +17,16 @@ func NewDestination(typeof, target, id string) *Destination {
 //NewZebrule returns a zebrule to use
 func NewZebrule(config config, fatal, erro, warning *Destination) (*Zebrule, error) {
 
+	if fatal == nil {
+		fatal = NewDestination("", "", "")
+	}
+	if erro == nil {
+		erro = NewDestination("", "", "")
+	}
+	if warning == nil {
+		warning = NewDestination("", "", "")
+	}
+
 	if *(fatal.Target) == "" && *(warning.Target) == "" && *(erro.Target) == "" {
 		return nil, errors.New("No endpoints given")
 	}

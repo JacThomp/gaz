@@ -11,14 +11,16 @@ import (
 
 func (d *Destination) generateDestination(c config) (*Destination, error) {
 
+	if c == nil {
+		return d, errors.New("Bad config")
+	}
+
 	switch *(d.Type) {
 	case "AWS":
 		s := session.Must(session.NewSession())
-		awsConf := c.(*aws.Config)
-		awsConf.Endpoint = d.Target
-		d.firehose = firehose.New(s, awsConf)
+		d.firehose = firehose.New(s, c.(*aws.Config))
 	default:
-		return nil, fmt.Errorf("%s is not a valid type", *(d.Type))
+		return d, fmt.Errorf("%s is not a valid type", *(d.Type))
 	}
 
 	return d, nil
