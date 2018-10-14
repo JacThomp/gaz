@@ -1,7 +1,6 @@
 package zebrule
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/service/firehose"
@@ -36,15 +35,15 @@ func (d Destination) feed(report Aluminum) error {
 	switch *(d.Type) {
 	case "AWS":
 
-		j, err := json.Marshal(*(report.Data))
+		/*j, err := json.Marshal(*(report.Data))
 		if err != nil {
 			return err
 		}
-		j = append(j, byte('\n'))
+		j = append(j, byte('\n'))*/
 		hose := d.firehose.(*firehose.Firehose)
 
-		_, err = hose.PutRecord(&firehose.PutRecordInput{
-			Record:             &firehose.Record{Data: j},
+		_, err := hose.PutRecord(&firehose.PutRecordInput{
+			Record:             &firehose.Record{Data: []byte(*(report.Data))},
 			DeliveryStreamName: d.ID,
 		})
 		if err != nil {
