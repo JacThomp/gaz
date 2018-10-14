@@ -1,11 +1,12 @@
 package zebrule
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
+
+const breakUpText = "\n\n===============\n\n"
 
 //Feed tells the zebrule what to stream out
 func (z *Zebrule) Feed(report Aluminum) error {
@@ -36,14 +37,10 @@ func (d Destination) feed(report Aluminum) error {
 	switch *(d.Type) {
 	case "AWS":
 
-		j, err := json.Marshal(*(report.Data))
-		if err != nil {
-			return err
-		}
-		j = append(j, byte('\n'))
 		hose := d.firehose.(*firehose.Firehose)
-		_, err = hose.PutRecord(&firehose.PutRecordInput{
-			Record:             &firehose.Record{Data: j},
+
+		_, err := hose.PutRecord(&firehose.PutRecordInput{
+			Record:             &firehose.Record{Data: []byte(*(report.Data) + breakUpText)},
 			DeliveryStreamName: d.ID,
 		})
 		if err != nil {
