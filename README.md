@@ -15,12 +15,14 @@ Usage
 //destination := destination string (/example/log/fatal) unsupported by AWS, the hose itself determines where things go
 //id := name of the firehose/whatever
 //the default destinations created are fatal, error, and warning
-z, err := zebrule.NewZebrule(config, zebrule.NewDestination(typeOf, destination, id), zebrule.NewDestination(), zebrule.NewDestination())
+z, err := zebrule.NewZebrule(config, zebrule.NewDestination(typeOf, destination, id), nil, nil)
 
+//To redefine destinations/define undefined destinations
+z.Set[TYPE](typeOf, destination, id)
 
 aluminum = zebrule.Aluminum{
     Type: "" //[FATAL, ERROR, WARNING, DEBUG, INFO, NOTICE]
-    Data: "" //string that gets jsonified and streamed
+    Data: "" //string that gets streamed as a byte array
 }
 
 z.Feed(aluminum)

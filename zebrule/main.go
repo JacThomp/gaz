@@ -27,8 +27,8 @@ func NewZebrule(config config, fatal, erro, warning *Destination) (*Zebrule, err
 		warning = NewDestination("", "", "")
 	}
 
-	if *(fatal.Target) == "" && *(warning.Target) == "" && *(erro.Target) == "" {
-		return nil, errors.New("No endpoints given")
+	if *(fatal.ID) == "" && *(warning.ID) == "" && *(erro.ID) == "" {
+		return nil, errors.New("No Endpoints given")
 	}
 
 	if config == nil {
