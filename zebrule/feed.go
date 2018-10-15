@@ -3,15 +3,14 @@ package zebrule
 import (
 	"fmt"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
-
-const breakUpText = "\n\n===============\n\n"
 
 //Feed tells the zebrule what to stream out
 func (z *Zebrule) Feed(report Aluminum) error {
 
-	switch *(report.Type) {
+	switch report.Type {
 	case "WARNING":
 		return z.Endpoints.Warning.feed(report)
 	case "FATAL":
@@ -25,24 +24,31 @@ func (z *Zebrule) Feed(report Aluminum) error {
 	case "NOTICE":
 		return z.Endpoints.Notice.feed(report)
 	default:
-		return fmt.Errorf("%s is an unknown report type, please check docs", *(report.Type))
+		return fmt.Errorf("%s is an unknown report type, please check docs", report.Type)
 	}
 }
 
 func (d Destination) feed(report Aluminum) error {
 	if d.firehose == nil {
-		return fmt.Errorf("%s logging has not been assigned to this zebrule", *(d.Target))
+		return fmt.Errorf("Logging has not been assigned to this zebrule")
 	}
 
-	switch *(d.Type) {
+	switch d.Type {
 	case "AWS":
 
 		hose := d.firehose.(*firehose.Firehose)
 
+		output := report.Data.String()
+		if d.Seperator != "" {
+			output = append(output, []byte(d.Seperator)...)
+		}
+
+		d.mute.Lock()
 		_, err := hose.PutRecord(&firehose.PutRecordInput{
-			Record:             &firehose.Record{Data: []byte(*(report.Data) + breakUpText)},
-			DeliveryStreamName: d.ID,
+			Record:             &firehose.Record{Data: append(output, byte('\n'))},
+			DeliveryStreamName: aws.String(d.ID),
 		})
+		d.mute.Unlock()
 		if err != nil {
 			return err
 		}

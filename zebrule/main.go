@@ -2,32 +2,36 @@ package zebrule
 
 import (
 	"errors"
+	"sync"
 )
 
 //NewDestination returns a blank destination to use
-func NewDestination(typeof, target, id string) *Destination {
-	return &Destination{
-		Type:     &typeof,
-		Target:   &target,
-		firehose: nil,
-		ID:       &id,
+func NewDestination(typeof, id, seperator string) Destination {
+	return Destination{
+		Type:      typeof,
+		Seperator: seperator,
+		firehose:  nil,
+		ID:        id,
+		mute:      &sync.Mutex{},
 	}
 }
 
 //NewZebrule returns a zebrule to use
-func NewZebrule(config config, fatal, erro, warning *Destination) (*Zebrule, error) {
+func NewZebrule(config config, fatal, erro, warning Destination) (*Zebrule, error) {
 
-	if fatal == nil {
+	null := Destination{}
+
+	if fatal == null {
 		fatal = NewDestination("", "", "")
 	}
-	if erro == nil {
+	if erro == null {
 		erro = NewDestination("", "", "")
 	}
-	if warning == nil {
+	if warning == null {
 		warning = NewDestination("", "", "")
 	}
 
-	if *(fatal.ID) == "" && *(warning.ID) == "" && *(erro.ID) == "" {
+	if fatal.ID == "" && warning.ID == "" && erro.ID == "" {
 		return nil, errors.New("No Endpoints given")
 	}
 
@@ -37,19 +41,19 @@ func NewZebrule(config config, fatal, erro, warning *Destination) (*Zebrule, err
 
 	err := errors.New("")
 
-	if *(fatal.Target) != "" {
+	if fatal.ID != "" {
 		fatal, err = fatal.generateDestination(config)
 		if err != nil {
 			return nil, err
 		}
 	}
-	if *(warning.Target) != "" {
+	if warning.ID != "" {
 		warning, err = warning.generateDestination(config)
 		if err != nil {
 			return nil, err
 		}
 	}
-	if *(erro.Target) != "" {
+	if erro.ID != "" {
 		erro, err = erro.generateDestination(config)
 		if err != nil {
 			return nil, err
@@ -71,7 +75,7 @@ func NewZebrule(config config, fatal, erro, warning *Destination) (*Zebrule, err
 
 	zeb := &Zebrule{
 		Config:    &config,
-		Endpoints: &ep,
+		Endpoints: ep,
 	}
 
 	return zeb, nil

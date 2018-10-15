@@ -12,17 +12,17 @@ Usage
 //or z = zebrule.Must(zebrule.NewZebrule(...))
 //config := some config structure
 //typeOf := supported stream string ("AWS", )
-//destination := destination string (/example/log/fatal) unsupported by AWS, the hose itself determines where things go
+//Seperator := seperation string (EX. "====="), seperates entries in the stream (for human readability)
 //id := name of the firehose/whatever
 //the default destinations created are fatal, error, and warning
-z, err := zebrule.NewZebrule(config, zebrule.NewDestination(typeOf, destination, id), nil, nil)
+z, err := zebrule.NewZebrule(config, zebrule.NewDestination(typeOf, id, seperator), zebrule.Destination{}, zebrule.Destination{})
 
 //To redefine destinations/define undefined destinations
 z.Set[TYPE](typeOf, destination, id)
 
 aluminum = zebrule.Aluminum{
     Type: "" //[FATAL, ERROR, WARNING, DEBUG, INFO, NOTICE]
-    Data: "" //string that gets streamed as a byte array
+    Data: struct //struct of data, needs a String() method that returns a []byte (json.Marshal)
 }
 
 z.Feed(aluminum)
