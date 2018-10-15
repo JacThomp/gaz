@@ -9,18 +9,18 @@ import (
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
 
-func (d *Destination) generateDestination(c config) (*Destination, error) {
+func (d Destination) generateDestination(c config) (Destination, error) {
 
 	if c == nil {
 		return d, errors.New("Bad config")
 	}
 
-	switch *(d.Type) {
+	switch d.Type {
 	case "AWS":
 		s := session.Must(session.NewSession())
 		d.firehose = firehose.New(s, c.(*aws.Config))
 	default:
-		return d, fmt.Errorf("%s is not a valid type", *(d.Type))
+		return d, fmt.Errorf("%s is not a valid type", d.Type)
 	}
 
 	return d, nil
