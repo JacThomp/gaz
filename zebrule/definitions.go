@@ -7,6 +7,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
 
+var ch = make(chan error)
+var wg sync.WaitGroup
+
 type fire interface {
 	PutRecord(input *firehose.PutRecordInput) (*firehose.PutRecordOutput, error)
 }
@@ -16,7 +19,7 @@ type config interface {
 }
 
 type data interface {
-	String() []byte
+	Bytes() []byte
 }
 
 //Aluminum tells the zebrule what to do
@@ -27,11 +30,10 @@ type Aluminum struct {
 
 //Destination is where the stuff gets sent
 type Destination struct {
-	Type      string      `required:"true"`
-	Seperator string      `required:"true"`
-	firehose  fire        `required:"false"`
-	ID        string      `required:"false"`
-	mute      *sync.Mutex `required:"false"`
+	Type     string      `required:"true"`
+	firehose fire        `required:"false"`
+	ID       string      `required:"true"`
+	mute     *sync.Mutex `required:"false"`
 }
 
 type endpoint struct {

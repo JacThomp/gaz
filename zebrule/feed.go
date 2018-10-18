@@ -38,10 +38,7 @@ func (d Destination) feed(report Aluminum) error {
 
 		hose := d.firehose.(*firehose.Firehose)
 
-		output := report.Data.String()
-		if d.Seperator != "" {
-			output = append(output, []byte(d.Seperator)...)
-		}
+		output := report.Data.Bytes()
 
 		d.mute.Lock()
 		_, err := hose.PutRecord(&firehose.PutRecordInput{
