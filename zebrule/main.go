@@ -6,13 +6,11 @@ import (
 )
 
 //NewDestination returns a blank destination to use
-func NewDestination(typeof, id, seperator string) Destination {
+func NewDestination(id string) Destination {
 	return Destination{
-		Type:      typeof,
-		Seperator: seperator,
-		firehose:  nil,
-		ID:        id,
-		mute:      &sync.Mutex{},
+		firehose: nil,
+		ID:       id,
+		mute:     &sync.Mutex{},
 	}
 }
 
@@ -22,13 +20,13 @@ func NewZebrule(config config, fatal, erro, warning Destination) (*Zebrule, erro
 	null := Destination{}
 
 	if fatal == null {
-		fatal = NewDestination("", "", "")
+		fatal = NewDestination("")
 	}
 	if erro == null {
-		erro = NewDestination("", "", "")
+		erro = NewDestination("")
 	}
 	if warning == null {
-		warning = NewDestination("", "", "")
+		warning = NewDestination("")
 	}
 
 	if fatal.ID == "" && warning.ID == "" && erro.ID == "" {
@@ -60,9 +58,9 @@ func NewZebrule(config config, fatal, erro, warning Destination) (*Zebrule, erro
 		}
 	}
 
-	debug := NewDestination("", "", "")
-	info := NewDestination("", "", "")
-	notice := NewDestination("", "", "")
+	debug := NewDestination("")
+	info := NewDestination("")
+	notice := NewDestination("")
 
 	ep := endpoint{
 		Fatal:   fatal,
