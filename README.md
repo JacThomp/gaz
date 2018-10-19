@@ -1,7 +1,7 @@
 # Green Aluminum Zebrule (because names are hard)
 Open Source golang log streaming
 
-Alpha v0.1.0
+Alpha v0.1.1
 
 you make a zebrule, then feed it aluminum, becase you are cruel.
 
