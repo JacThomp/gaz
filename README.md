@@ -5,6 +5,8 @@ Alpha v0.1.0
 
 you make a zebrule, then feed it aluminum, becase you are cruel.
 
+The Aluminum struct is both sent to the firehose, and fmt.Printlnd for immediate notification.
+
 Supports: AWS firehose, 
 
 Usage
@@ -18,9 +20,9 @@ z, err := zebrule.NewZebrule(config, zebrule.NewDestination(id), zebrule.Destina
 //To redefine destinations/define undefined destinations
 z.Set[TYPE](id)
 
-aluminum = zebrule.Aluminum{
+aluminum = zebrule.Data{
     Type: "" //[FATAL, ERROR, WARNING, DEBUG, INFO, NOTICE]
-    Data: struct //struct of data, needs a String() method that returns a []byte (json.Marshal)
+    Aluminum: struct //struct of data, needs a bytes() method that returns a []byte (json.Marshal), or you can use aluminum.Aluminum(pre-defined struct)
 }
 
 z.Feed(aluminum)

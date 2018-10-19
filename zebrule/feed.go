@@ -8,7 +8,7 @@ import (
 )
 
 //Feed tells the zebrule what to stream out
-func (z *Zebrule) Feed(report Aluminum) error {
+func (z *Zebrule) Feed(report Data) error {
 
 	switch report.Type {
 	case "WARNING":
@@ -28,17 +28,18 @@ func (z *Zebrule) Feed(report Aluminum) error {
 	}
 }
 
-func (d Destination) feed(report Aluminum) error {
+func (d Destination) feed(report Data) error {
 	if d.firehose == nil {
 		return fmt.Errorf("Logging has not been assigned to this zebrule")
 	}
+
+	output := report.Aluminum.Bytes()
+	fmt.Println(string(output))
 
 	switch d.Type {
 	case "AWS":
 
 		hose := d.firehose.(*firehose.Firehose)
-
-		output := report.Data.Bytes()
 
 		d.mute.Lock()
 		_, err := hose.PutRecord(&firehose.PutRecordInput{

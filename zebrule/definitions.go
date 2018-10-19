@@ -18,14 +18,15 @@ type config interface {
 	Copy(...*aws.Config) *aws.Config
 }
 
-type data interface {
+//Aluminum is the data interface, in case you don't want to use the defaul
+type Aluminum interface {
 	Bytes() []byte
 }
 
 //Aluminum tells the zebrule what to do
-type Aluminum struct {
-	Type string `required:"true"`
-	Data data   `required:"true"`
+type Data struct {
+	Type     string   `required:"true"`
+	Aluminum Aluminum `required:"true"`
 }
 
 //Destination is where the stuff gets sent
