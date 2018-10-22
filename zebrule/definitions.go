@@ -2,14 +2,10 @@ package zebrule
 
 import (
 	"reflect"
-	"sync"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
-
-var ch = make(chan error)
-var wg sync.WaitGroup
 
 type fire interface {
 	PutRecord(input *firehose.PutRecordInput) (*firehose.PutRecordOutput, error)
