@@ -2,78 +2,38 @@ package zebrule
 
 import (
 	"errors"
-	"sync"
+	"reflect"
 )
 
 //NewDestination returns a blank destination to use
-func NewDestination(id string) Destination {
+func NewDestination(id string, conf config) Destination {
 	return Destination{
-		firehose: nil,
-		ID:       id,
-		mute:     &sync.Mutex{},
+		ID:     id,
+		Type:   reflect.TypeOf(conf),
+		Config: &conf,
 	}
 }
 
 //NewZebrule returns a zebrule to use
-func NewZebrule(config config, fatal, erro, warning Destination) (*Zebrule, error) {
-
-	null := Destination{}
-
-	if fatal == null {
-		fatal = NewDestination("")
-	}
-	if erro == null {
-		erro = NewDestination("")
-	}
-	if warning == null {
-		warning = NewDestination("")
-	}
+func NewZebrule(fatal, erro, warning Destination) (*Zebrule, error) {
 
 	if fatal.ID == "" && warning.ID == "" && erro.ID == "" {
 		return nil, errors.New("No Endpoints given")
 	}
 
-	if config == nil {
-		return nil, errors.New("No streaming config object given")
-	}
-
-	err := errors.New("")
-
-	if fatal.ID != "" {
-		fatal, err = fatal.generateDestination(config)
-		if err != nil {
-			return nil, err
-		}
-	}
-	if warning.ID != "" {
-		warning, err = warning.generateDestination(config)
-		if err != nil {
-			return nil, err
-		}
-	}
-	if erro.ID != "" {
-		erro, err = erro.generateDestination(config)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	debug := NewDestination("")
-	info := NewDestination("")
-	notice := NewDestination("")
-
-	ep := endpoint{
-		Fatal:   fatal,
-		Warning: warning,
-		Error:   erro,
-		Debug:   debug,
-		Info:    info,
-		Notice:  notice,
-	}
+	debug := NewDestination("", nil)
+	info := NewDestination("", nil)
+	notice := NewDestination("", nil)
 
 	zeb := &Zebrule{
-		Config:    &config,
-		Endpoints: ep,
+		Endpoints: endpoint{
+			Fatal:   fatal,
+			Warning: warning,
+			Error:   erro,
+			Debug:   debug,
+			Info:    info,
+			Notice:  notice,
+		},
 	}
 
 	return zeb, nil

@@ -1,6 +1,7 @@
 package zebrule
 
 import (
+	"reflect"
 	"sync"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -31,10 +32,9 @@ type Data struct {
 
 //Destination is where the stuff gets sent
 type Destination struct {
-	Type     string      `required:"true"`
-	firehose fire        `required:"false"`
-	ID       string      `required:"true"`
-	mute     *sync.Mutex `required:"false"`
+	Type   reflect.Type `required:"true"`
+	ID     string       `required:"true"`
+	Config *config      `required:"true"`
 }
 
 type endpoint struct {
@@ -48,6 +48,5 @@ type endpoint struct {
 
 //Zebrule is a poor struct, brought into this world only to eat aluminum and stream logs
 type Zebrule struct {
-	Config    *config  `required:"true"`
 	Endpoints endpoint `required:"true"`
 }

@@ -1,9 +1,12 @@
 package zebrule
 
 import (
+	"errors"
 	"fmt"
+	"reflect"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/firehose"
 )
 
@@ -29,27 +32,32 @@ func (z *Zebrule) Feed(report Data) error {
 }
 
 func (d Destination) feed(report Data) error {
-	if d.firehose == nil {
-		return fmt.Errorf("Logging has not been assigned to this zebrule")
+	if d.Config == nil {
+		return errors.New("Logging has not been assigned to this zebrule")
+	}
+
+	if d.ID == "" {
+		return errors.New("No ID given for the target destination")
 	}
 
 	output := report.Aluminum.Bytes()
 	fmt.Println(string(output))
 
 	switch d.Type {
-	case "AWS":
+	case reflect.TypeOf(&aws.Config{}):
+		s := session.Must(session.NewSession())
+		hose := firehose.New(s, (*d.Config).(*aws.Config))
 
-		hose := d.firehose.(*firehose.Firehose)
-
-		d.mute.Lock()
 		_, err := hose.PutRecord(&firehose.PutRecordInput{
 			Record:             &firehose.Record{Data: append(output, byte('\n'))},
 			DeliveryStreamName: aws.String(d.ID),
 		})
-		d.mute.Unlock()
 		if err != nil {
-			return err
+			return fmt.Errorf("Error streaming to AWS: %v", err)
 		}
+
+	default:
+		return fmt.Errorf("%s is not a valid type of config", d.Type)
 	}
 
 	return nil

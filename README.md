@@ -15,10 +15,10 @@ Usage
 //config := some config structure, reflection figures out what to do
 //id := name of the firehose/whatever
 //the default destinations created are fatal, error, and warning
-z, err := zebrule.NewZebrule(config, zebrule.NewDestination(id), zebrule.Destination{}, zebrule.Destination{})
+z, err := zebrule.NewZebrule(zebrule.NewDestination(id, config), zebrule.Destination{}, zebrule.Destination{})
 
 //To redefine destinations/define undefined destinations
-z.Set[TYPE](id)
+z, err = z.Set[TYPE](id, config)
 
 aluminum = zebrule.Data{
     Type: "" //[FATAL, ERROR, WARNING, DEBUG, INFO, NOTICE]
