@@ -6,7 +6,7 @@ import (
 )
 
 //NewDestination returns a blank destination to use
-func NewDestination(id string, conf config) Destination {
+func NewDestination(id string, conf interface{}) Destination {
 	return Destination{
 		ID:     id,
 		Type:   reflect.TypeOf(conf),

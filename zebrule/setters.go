@@ -5,7 +5,7 @@ import (
 )
 
 //SetWarning creates a new hose
-func (z *Zebrule) SetWarning(id string, c config) (*Zebrule, error) {
+func (z *Zebrule) SetWarning(id string, c interface{}) (*Zebrule, error) {
 	if id == "" {
 		return z, errors.New("Hose ID not supplied, hose not generated")
 	}
@@ -22,7 +22,7 @@ func (z *Zebrule) SetWarning(id string, c config) (*Zebrule, error) {
 }
 
 //SetError creates a new hose
-func (z *Zebrule) SetError(id string, c config) (*Zebrule, error) {
+func (z *Zebrule) SetError(id string, c interface{}) (*Zebrule, error) {
 	if id == "" {
 		return z, errors.New("Hose ID not supplied, hose not generated")
 	}
@@ -39,7 +39,7 @@ func (z *Zebrule) SetError(id string, c config) (*Zebrule, error) {
 }
 
 //SetDebug creates a new hose
-func (z *Zebrule) SetDebug(id string, c config) (*Zebrule, error) {
+func (z *Zebrule) SetDebug(id string, c interface{}) (*Zebrule, error) {
 	if id == "" {
 		return z, errors.New("Hose ID not supplied, hose not generated")
 	}
@@ -56,7 +56,7 @@ func (z *Zebrule) SetDebug(id string, c config) (*Zebrule, error) {
 }
 
 //SetInfo creates a new hose
-func (z *Zebrule) SetInfo(id string, c config) (*Zebrule, error) {
+func (z *Zebrule) SetInfo(id string, c interface{}) (*Zebrule, error) {
 	if id == "" {
 		return z, errors.New("Hose ID not supplied, hose not generated")
 	}
@@ -73,7 +73,7 @@ func (z *Zebrule) SetInfo(id string, c config) (*Zebrule, error) {
 }
 
 //SetNotice creates a new hose
-func (z *Zebrule) SetNotice(id string, c config) (*Zebrule, error) {
+func (z *Zebrule) SetNotice(id string, c interface{}) (*Zebrule, error) {
 	if id == "" {
 		return z, errors.New("Hose ID not supplied, hose not generated")
 	}

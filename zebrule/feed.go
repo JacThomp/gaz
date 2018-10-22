@@ -13,6 +13,9 @@ import (
 //Feed tells the zebrule what to stream out
 func (z *Zebrule) Feed(report Data) error {
 
+	cons++
+	defer func() { cons-- }()
+
 	switch report.Type {
 	case "WARNING":
 		return z.Warning.feed(report)
@@ -43,6 +46,10 @@ func (d Destination) feed(report Data) error {
 	output := report.Aluminum.Bytes()
 	fmt.Println(string(output))
 
+	if cons >= conlim {
+		mut.Lock()
+		defer mut.Unlock()
+	}
 	switch d.Type {
 	case reflect.TypeOf(&aws.Config{}):
 		s := session.Must(session.NewSession())

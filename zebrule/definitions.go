@@ -2,25 +2,21 @@ package zebrule
 
 import (
 	"reflect"
-
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/firehose"
+	"sync"
 )
 
-type fire interface {
-	PutRecord(input *firehose.PutRecordInput) (*firehose.PutRecordOutput, error)
-}
+var cons int
 
-type config interface {
-	Copy(...*aws.Config) *aws.Config
-}
+const conlim = 200
+
+var mut = sync.Mutex{}
 
 //Aluminum is the data interface, in case you don't want to use the defaul
 type Aluminum interface {
 	Bytes() []byte
 }
 
-//Aluminum tells the zebrule what to do
+//Data tells the zebrule what to do
 type Data struct {
 	Type     string   `required:"true"`
 	Aluminum Aluminum `required:"true"`
@@ -30,7 +26,7 @@ type Data struct {
 type Destination struct {
 	Type   reflect.Type `required:"true"`
 	ID     string       `required:"true"`
-	Config *config      `required:"true"`
+	Config *interface{} `required:"true"`
 }
 
 //Zebrule is a poor struct, brought into this world only to eat aluminum and stream logs
