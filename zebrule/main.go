@@ -26,14 +26,12 @@ func NewZebrule(fatal, erro, warning Destination) (*Zebrule, error) {
 	notice := NewDestination("", nil)
 
 	zeb := &Zebrule{
-		Endpoints: endpoint{
-			Fatal:   fatal,
-			Warning: warning,
-			Error:   erro,
-			Debug:   debug,
-			Info:    info,
-			Notice:  notice,
-		},
+		Fatal:   fatal,
+		Warning: warning,
+		Error:   erro,
+		Debug:   debug,
+		Info:    info,
+		Notice:  notice,
 	}
 
 	return zeb, nil

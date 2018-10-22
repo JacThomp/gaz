@@ -16,7 +16,7 @@ func (z *Zebrule) SetWarning(id string, c config) (*Zebrule, error) {
 
 	d := NewDestination(id, c)
 
-	z.Endpoints.Warning = d
+	z.Warning = d
 
 	return z, nil
 }
@@ -33,7 +33,7 @@ func (z *Zebrule) SetError(id string, c config) (*Zebrule, error) {
 
 	d := NewDestination(id, c)
 
-	z.Endpoints.Error = d
+	z.Error = d
 
 	return z, nil
 }
@@ -50,7 +50,7 @@ func (z *Zebrule) SetDebug(id string, c config) (*Zebrule, error) {
 
 	d := NewDestination(id, c)
 
-	z.Endpoints.Debug = d
+	z.Debug = d
 
 	return z, nil
 }
@@ -67,7 +67,7 @@ func (z *Zebrule) SetInfo(id string, c config) (*Zebrule, error) {
 
 	d := NewDestination(id, c)
 
-	z.Endpoints.Info = d
+	z.Info = d
 
 	return z, nil
 }
@@ -84,7 +84,7 @@ func (z *Zebrule) SetNotice(id string, c config) (*Zebrule, error) {
 
 	d := NewDestination(id, c)
 
-	z.Endpoints.Notice = d
+	z.Notice = d
 
 	return z, nil
 }

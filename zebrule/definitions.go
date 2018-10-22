@@ -37,16 +37,12 @@ type Destination struct {
 	Config *config      `required:"true"`
 }
 
-type endpoint struct {
+//Zebrule is a poor struct, brought into this world only to eat aluminum and stream logs
+type Zebrule struct {
 	Fatal   Destination `required:"true"`
 	Warning Destination `required:"true"`
 	Error   Destination `required:"true"`
 	Debug   Destination `required:"true"`
 	Info    Destination `required:"true"`
 	Notice  Destination `required:"true"`
-}
-
-//Zebrule is a poor struct, brought into this world only to eat aluminum and stream logs
-type Zebrule struct {
-	Endpoints endpoint `required:"true"`
 }

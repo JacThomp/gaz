@@ -15,17 +15,17 @@ func (z *Zebrule) Feed(report Data) error {
 
 	switch report.Type {
 	case "WARNING":
-		return z.Endpoints.Warning.feed(report)
+		return z.Warning.feed(report)
 	case "FATAL":
-		return z.Endpoints.Fatal.feed(report)
+		return z.Fatal.feed(report)
 	case "ERROR":
-		return z.Endpoints.Error.feed(report)
+		return z.Error.feed(report)
 	case "DEBUG":
-		return z.Endpoints.Debug.feed(report)
+		return z.Debug.feed(report)
 	case "INFO":
-		return z.Endpoints.Info.feed(report)
+		return z.Info.feed(report)
 	case "NOTICE":
-		return z.Endpoints.Notice.feed(report)
+		return z.Notice.feed(report)
 	default:
 		return fmt.Errorf("%s is an unknown report type, please check docs", report.Type)
 	}
