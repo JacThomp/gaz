@@ -1,13 +1,13 @@
 # Green Aluminum Zebrule (because names are hard)
 Open Source golang log streaming
 
-Alpha v0.1.1
+Beta v1.0.0
 
 you make a zebrule, then feed it aluminum, becase you are cruel.
 
 The Aluminum struct is both sent to the firehose, and fmt.Printlnd for immediate notification.
 
-Supports: AWS firehose, 
+Supports: AWS firehose,
 
 Usage
 ```go
