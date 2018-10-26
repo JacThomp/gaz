@@ -11,14 +11,14 @@ const conlim = 200
 
 var mut = sync.Mutex{}
 
-//Aluminum is the data interface, in case you don't want to use the defaul
+//Aluminum is the data interface, in case you don't want to use the default
 type Aluminum interface {
 	Bytes() []byte
 }
 
-//Data tells the zebrule what to do
+//Data is what the zebrule reports
 type Data struct {
-	Type     string   `required:"true"`
+	Type     string   `required:"true"` //which destination to report to
 	Aluminum Aluminum `required:"true"`
 }
 
