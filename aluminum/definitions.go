@@ -19,6 +19,8 @@ type Aluminum struct {
 	User       string         `json:"user" required:"true"`            //All
 	Message    string         `json:"message" required:"true"`         //Fatal
 	LogType    string         `json:"logType" required:"true"`         //All
+	System     string         `json:"system" required:"true"`          //All
+	Request    *http.Request  `jsong:"request" required:"false"`       //All
 }
 
 var (

@@ -28,7 +28,8 @@ func (a Aluminum) Bytes() []byte {
 				case reflect.TypeOf(time.Now()):
 					retval = append(retval, []byte(time.Now().UTC().String())...)
 				default:
-					retval = append(retval, unkown...)
+					//retval = append(retval, unkown...)
+					retval = append(retval, []byte(reflect.Zero(t.Type).String())...)
 				}
 				retval = append(retval, se...)
 			}
